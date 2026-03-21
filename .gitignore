@@ -1,0 +1,11 @@
+# Compiled output 
+*.class 
+*.jar 
+*.war 
+# IDE files 
+.idea/ 
+.vscode/ 
+*.iml 
+# OS files 
+Thumbs.db 
+.DS_Store 
