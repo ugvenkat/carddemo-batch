@@ -1,0 +1,9 @@
+{
+  "name": "AWS.M2.CARDDEMO.TCATBALF.VSAM.KSDS",
+  "type": "KSDS",
+  "key_length": 17,
+  "key_offset": 0,
+  "record_size": 50,
+  "share_options": "2 3",
+  "created_at": "2026-03-21T13:49:59.840289"
+}

@@ -84,9 +84,18 @@ def run_program(program_name: str, parm: str, file_config: dict) -> int:
     env.update({dd_name: path for dd_name, path in file_config.items()})
     env["PARM"] = parm
 
+    # Check if the Python program exists before calling subprocess
+    program_file = f"{program_name.lower()}.py"
+    if not os.path.exists(program_file):
+        logger.warning(
+            f"Program {program_file} not found. "
+            f"Skipping — will be replaced with converted COBOL program."
+        )
+        return 0
+
     try:
         result = subprocess.run(
-            [sys.executable, f"{program_name.lower()}.py", parm],
+            [sys.executable, program_file, parm],
             env=env,
             capture_output=False
         )
@@ -94,7 +103,7 @@ def run_program(program_name: str, parm: str, file_config: dict) -> int:
 
     except FileNotFoundError:
         logger.warning(
-            f"Program {program_name.lower()}.py not found. "
+            f"Program {program_file} not found. "
             f"Skipping — will be replaced with converted COBOL program."
         )
         return 0

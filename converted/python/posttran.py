@@ -86,9 +86,18 @@ def run_program(program_name: str, file_config: dict) -> int:
     env = os.environ.copy()
     env.update({dd_name: path for dd_name, path in file_config.items()})
 
+    # Check if the Python program exists before calling subprocess
+    program_file = f"{program_name.lower()}.py"
+    if not os.path.exists(program_file):
+        logger.warning(
+            f"Program {program_file} not found. "
+            f"Skipping — will be replaced with converted COBOL program."
+        )
+        return 0
+
     try:
         result = subprocess.run(
-            [sys.executable, f"{program_name.lower()}.py"],
+            [sys.executable, program_file],
             env=env,
             capture_output=False   # let stdout/stderr flow through (like SYSOUT=*)
         )
