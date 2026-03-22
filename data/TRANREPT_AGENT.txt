@@ -1,0 +1,8 @@
+CBTRN03C                              TRANSACTION DETAIL REPORT                DATE RANGE: 2026-01-01 to 2026-12-31
+                                                                                                                                     
+TRANSACTION ID   ACCOUNT ID  TYPE TYPE DESCRIPTION     CAT CD CATEGORY DESCRIPTION           SOURCE                   AMOUNT         
+-------------------------------------------------------------------------------------------------------------------------------------
+TRN0000000000001 1           PU-Purchase                                           0001-Groceries                  
+                                                                                                     PAGE TOTAL:             1,000.00
+-------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                     GRAND TOTAL:            1,000.00

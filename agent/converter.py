@@ -286,7 +286,36 @@ STRICT RULES — these come from hard-won experience fixing bugs:
 
 9. Add detailed comments mapping each method back to the original COBOL paragraph name
 
-10. SPECIAL CLASS NOTES — READ CAREFULLY:
+10. REPORTING PROGRAM SPECIFIC RULES (for CBTRN03C):
+
+    a) AMOUNT FORMATTING in detail line:
+       When setting amount in report detail record use String.format:
+       detail.tranReportAmt = tranRecord.tranAmt != null
+           ? String.format("%.2f", tranRecord.tranAmt) : "0.00";
+       NEVER use tranRecord.tranAmt.toString() — it omits decimal formatting
+
+    b) NO DOUBLE COUNTING of amounts at EOF:
+       The main loop has TWO paths:
+         - Normal path: calls writeTransactionReport() which adds tranAmt to wsPageTotal
+         - EOF path: should ONLY write totals, NEVER add tranAmt again
+       WRONG pattern — causes double counting:
+         }} else {{
+             wsPageTotal = wsPageTotal.add(tranRecord.tranAmt);  // BUG — already added!
+             writePageTotals();
+         }}
+       CORRECT pattern:
+         }} else {{
+             writePageTotals();    // just write — do NOT add tranAmt again
+             writeGrandTotals();
+         }}
+
+    c) GRAND TOTAL accumulation:
+       Grand total should be accumulated inside writePageTotals() from wsPageTotal
+       before resetting wsPageTotal to ZERO:
+         wsGrandTotal = wsGrandTotal.add(wsPageTotal);  // accumulate first
+         wsPageTotal = BigDecimal.ZERO;                  // then reset
+
+11. SPECIAL CLASS NOTES — READ CAREFULLY:
 
     a) ReportStructures (CVTRA07Y):
        This class has INNER STATIC CLASSES — use them like this:
